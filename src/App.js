@@ -37,8 +37,7 @@ class BooksApp extends React.Component {
     });
   }
   updateQuery = (query) => {
-    query=query.trim()
-    this.setState({ query: query })
+    this.setState({ query })
     if (query) {
       query = escapeRegExp(query)
       BooksAPI.search(query).then((books) => {
