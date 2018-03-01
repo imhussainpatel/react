@@ -40,7 +40,7 @@ class BooksApp extends React.Component {
     this.setState({ query })
     if (query) {
       query = escapeRegExp(query)
-      BooksAPI.search(query).then((books) => {
+      BooksAPI.search(query.trim()).then((books) => {
         if(!books || books.error){
           this.setState({ searchBooks: [] })
         }else{

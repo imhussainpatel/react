@@ -1,17 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import BooksGrid from './BooksGrid'
 
-class SearchBooks extends Component {
-  static propTypes = {
-    books: PropTypes.array,
-    query: PropTypes.string,
-    onUpdateShelf: PropTypes.func.isRequired,
-    onUpdateQuery: PropTypes.func.isRequired,
-  }
-  render() {
-    const { query,books,onUpdateShelf,onUpdateQuery} = this.props
+function SearchBooks (props) {
     return (
       <div className="search-books">
       <div className="search-books-bar">
@@ -29,19 +21,23 @@ class SearchBooks extends Component {
             you don't find a specific author or title. Every search is limited by search terms.
           */}
           <input type="text" placeholder="Search by title or author"
-          value={query} onChange={(event) => onUpdateQuery(event.target.value)}/>
+          value={props.query} onChange={(event) => props.onUpdateQuery(event.target.value)}/>
 
         </div>
       </div>
       <div className="search-books-results">
-      {query && books.length>0 && (<BooksGrid 
-      onUpdateShelf={onUpdateShelf}
-      books={books}/>)}
-      {!query && books.length<=0 && ("No Results Available...")}
+      {props.query && props.books.length>0 && (<BooksGrid 
+      onUpdateShelf={props.onUpdateShelf}
+      books={props.books}/>)}
+      {!props.query && props.books.length<=0 && ("No Results Available...")}
       </div>
     </div>
     )
-  }
 }
-
+SearchBooks.propTypes = {
+  books: PropTypes.array,
+  query: PropTypes.string,
+  onUpdateShelf: PropTypes.func.isRequired,
+  onUpdateQuery: PropTypes.func.isRequired,
+}
 export default SearchBooks
