@@ -34,10 +34,10 @@ class SearchBooks extends Component {
         </div>
       </div>
       <div className="search-books-results">
-      {books.length>0 && (<BooksGrid 
+      {query && books.length>0 && (<BooksGrid 
       onUpdateShelf={onUpdateShelf}
       books={books}/>)}
-      {books.length<=0 && ("No Results Available...")}
+      {!query && books.length<=0 && ("No Results Available...")}
       </div>
     </div>
     )
