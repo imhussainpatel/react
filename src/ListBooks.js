@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import BooksGrid from './BooksGrid'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
 
 class ListBooks extends Component {
   static propTypes = {
@@ -12,7 +10,6 @@ class ListBooks extends Component {
   }
   render() {
     const { books,onUpdateShelf} = this.props
-    //console.log(books);
     return (
       <div className="list-books">
             <div className="list-books-title">

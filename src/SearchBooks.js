@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
 import BooksGrid from './BooksGrid'
 
 class SearchBooks extends Component {
@@ -40,6 +38,7 @@ class SearchBooks extends Component {
       {books.length>0 && (<BooksGrid 
       onUpdateShelf={onUpdateShelf}
       books={books}/>)}
+      {books.length<=0 && ("No Results Available...")}
       </div>
     </div>
     )

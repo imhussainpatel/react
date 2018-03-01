@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
 import escapeRegExp from 'escape-string-regexp'
+import sortBy from 'sort-by'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -20,18 +21,33 @@ class BooksApp extends React.Component {
   updateShelf = (book,newShelf) => {
     book.shelf=newShelf
     this.setState((state) => ({
-      books: state.books.map((b) => (
-        b.id === book.id?b=book:b=b))
+      books: state.books.filter((b) => b.id !== book.id).concat([ book ])
     }))
 
     BooksAPI.update(book,newShelf)
   }
+  userShelfBooksMatch=()=>{
+    this.state.books.forEach(book => {
+      var newSearchBooks=this.state.searchBooks.filter((b) => b.id !== book.id)
+      if(newSearchBooks && newSearchBooks<this.state.searchBooks){
+        this.setState((state) => ({
+          searchBooks: newSearchBooks.concat([ book ])
+        }))
+      }
+    });
+  }
   updateQuery = (query) => {
-    this.setState({ query: query.trim() })
+    query=query.trim()
+    this.setState({ query: query })
     if (query) {
       query = escapeRegExp(query)
       BooksAPI.search(query).then((books) => {
-        this.setState({ searchBooks: books})
+        if(!books || books.error){
+          this.setState({ searchBooks: [] })
+        }else{
+          this.setState({ searchBooks: books})
+          this.userShelfBooksMatch();
+        }
       })
     } else {
       this.setState({ searchBooks: [] })
@@ -43,13 +59,13 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
           <ListBooks
           onUpdateShelf={this.updateShelf}
-          books={this.state.books}
+          books={this.state.books.sort(sortBy('title'))}
           />
         )}/>
         <Route path='/search' render={({ history }) => (
           <SearchBooks
-          query={this.query}
-          books={this.state.searchBooks}
+          query={this.state.query}
+          books={this.state.searchBooks.sort(sortBy('title'))}
           onUpdateQuery={this.updateQuery}
           onUpdateShelf={this.updateShelf}
           />
