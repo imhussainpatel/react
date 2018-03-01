@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import BooksGrid from './BooksGrid'
 
 function SearchBooks (props) {
+    const { query,books,onUpdateShelf,onUpdateQuery} = props
     return (
       <div className="search-books">
       <div className="search-books-bar">
@@ -21,15 +22,15 @@ function SearchBooks (props) {
             you don't find a specific author or title. Every search is limited by search terms.
           */}
           <input type="text" placeholder="Search by title or author"
-          value={props.query} onChange={(event) => props.onUpdateQuery(event.target.value)}/>
+          value={query} onChange={(event) => onUpdateQuery(event.target.value)}/>
 
         </div>
       </div>
       <div className="search-books-results">
-      {props.query && props.books.length>0 && (<BooksGrid 
-      onUpdateShelf={props.onUpdateShelf}
-      books={props.books}/>)}
-      {!props.query && props.books.length<=0 && ("No Results Available...")}
+      {query && books.length>0 && (<BooksGrid 
+      onUpdateShelf={onUpdateShelf}
+      books={books}/>)}
+      {(!query || books.length<=0) && ("No Results Available...")}
       </div>
     </div>
     )

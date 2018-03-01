@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import Books from './Books'
 
 function BooksGrid (props) {
+    const { books,onUpdateShelf} = props
     return (
       <ol className="books-grid">
-      {props.books.map((book) => {
+      {books.map((book) => {
         return <li key={book.id}>
           <Books 
-          onUpdateShelf={props.onUpdateShelf}
+          onUpdateShelf={onUpdateShelf}
           book={book}/>
         </li>
       })}
