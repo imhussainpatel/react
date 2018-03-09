@@ -30,8 +30,13 @@ function SearchBooks (props) {
       {query && books.length>0 && (<BooksGrid 
       onUpdateShelf={onUpdateShelf}
       books={books}/>)}
-      {(!query || books.length<=0) && ("No Results Available...")}
-      </div>
+      {(!query || books.length<=0) && (
+        <div className="bookshelf">
+            <div className="bookshelf-books">
+                <ol className="books-grid">No Books Available...</ol>
+            </div>
+        </div>)}
+        </div>
     </div>
     )
 }
